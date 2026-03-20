@@ -1,0 +1,212 @@
+//abaixo estamos carregando a biblioteca standard input output para
+//usarmos os comandos de entrada scanf e saida printf de dados do usuario
+#include <stdio.h>
+
+//carregando biblioteca para utilizar comando de limpar terminal
+#include <cstdlib>
+
+/*escreva um programa que solicite ao usuario:
+    nome
+    sexo
+    idade
+    notas
+    dos n alunos em uma turma
+    
+    ao final apresente:
+    1- quantidade de alunos cadastrados na turma OK
+    2- a quantidade de alunos e alunas (%) aprovados/reprovados na turma OK
+    3- a media de idade dos alunos aprovados e reprovados OK
+    4- gerar relatorio de alunos aprovados e reprovados OK
+
+    5- Tornar configuravel:  OK
+    5.1 a media de aprovacao
+    5.2 a quantidade de provas a serem realizadas pelo aluno
+
+    6- Fazer tratamento de dados de entrada: OK
+    6.1 0 <= nota <= 10
+    6.2 16 < idade < 90
+    6.3 5 < media < 8
+    6.4 sexo
+*/
+
+//a seguir temos a funcao princirpal
+int main()
+{
+    int qtdAlunos;
+
+    int qtdProvas;
+
+    int qtdAprovM = 0, qtdAprovF = 0;
+    int qtdTotalAprovados = 0, qtdTotalReprovados = 0;
+
+    int qtdAlunosR = 0, qtdAlunasR = 0;
+
+    int qtdAlunosM = 0, qtdAlunasF = 0;
+
+    int somaIdadeAprovados = 0;
+    int somaIdadeReprovados = 0;
+
+    float mediaIdadeAprovados = 0;
+    float mediaIdadeReprovados = 0;
+
+    float porcentagemReprovados = 0, porcentagemReprovadas = 0;
+
+    float media;
+    float mediaAprovacao;
+
+    float somaNotas;
+    
+    //laço para verificar se qtd alunos e valido
+    do{
+
+        printf("Informe a quantidade de alunos da turma: ");
+        scanf("%i",&qtdAlunos);
+
+    }while(qtdAlunos > 100);
+
+    //limpando terminal
+    system("clear");
+
+    //laço para verificar media e valido
+    do{
+
+        printf("Informe a a media de aprovação (5 - 8): ");
+        scanf("%f", &mediaAprovacao);
+
+    }while(mediaAprovacao<5 || mediaAprovacao > 8);
+
+    //limpando terminal
+    system("clear");
+
+    //laço para verificar qtdProvas e valido
+    do{
+
+        printf("Informe a quantidade de provas realizadas (1-10): ");
+        scanf("%i", &qtdProvas);
+
+    }while(qtdProvas < 1 || qtdProvas > 10);
+    
+    //limpando terminal
+    system("clear");
+
+    //struct como se fosse um objeto em js ou classe 
+    struct Aluno {
+        char Nome[30];
+        char Sexo;
+        int Idade;
+        float *Notas;
+        bool Aprovado;
+    };
+
+    //array de objetos
+    struct Aluno Alunos[100];
+    
+    //loop para receber os dados na quantidade de alunos informada
+    for(int i =0; i<qtdAlunos;i++){
+
+        media = 0;
+        somaNotas = 0;
+        
+        Alunos[i].Notas = (float*) malloc(qtdProvas * sizeof(float));
+
+        printf("Informe o nome do %i. aluno: ", i+1);
+        scanf("%s",Alunos[i].Nome);
+        
+        //laço para verificar se idade e valido
+        do{
+
+            printf("Informe a idade de %s (16 - 90): ", Alunos[i].Nome);
+            scanf("%i",&Alunos[i].Idade);
+
+        }while(Alunos[i].Idade < 16 || Alunos[i].Idade > 90);
+
+        //laço para verificar se sexo e valido
+        do{
+
+            printf("Informe o sexo de %s (M/F/m/f): ", Alunos[i].Nome);
+            scanf(" %c",&Alunos[i].Sexo);
+
+        }while(Alunos[i].Sexo != 'M' && Alunos[i].Sexo != 'm'
+        && Alunos[i].Sexo != 'F' && Alunos[i].Sexo != 'f');
+
+        for(int n = 0; n<qtdProvas; n++){
+
+            //laço para verificar se nota e valida
+            do{
+
+                printf("Informe a nota %i: ", n+1);
+                scanf("%f",&Alunos[i].Notas[n]);
+
+            }while(Alunos[i].Notas[n] < 0 || Alunos[i].Notas[n] > 10);
+
+            //soma das 3 notas informadas
+            somaNotas += Alunos[i].Notas[n];
+
+        }
+
+        //calculo da media do aluno
+        media = somaNotas/qtdProvas;
+
+        //verificacao de situacao do aluno e soma das idades
+        if(media >= mediaAprovacao){
+            Alunos[i].Aprovado = true;
+            somaIdadeAprovados += Alunos[i].Idade;
+        }else{
+            Alunos[i].Aprovado = false;
+            somaIdadeReprovados += Alunos[i].Idade;
+        }
+
+        //qtd de alunos
+        qtdAlunosM = (Alunos[i].Sexo == 'M' || Alunos[i].Sexo == 'm') ? qtdAlunosM + 1 : qtdAlunosM;
+        
+        //qtd alunos aprovados
+        qtdAprovM = ( (Alunos[i].Sexo == 'M' || Alunos[i].Sexo == 'm') && Alunos[i].Aprovado == true) ? qtdAprovM + 1 : qtdAprovM;
+
+        //qtd alunas aprovadas
+        qtdAprovF = ( (Alunos[i].Sexo == 'F' || Alunos[i].Sexo == 'f')  && Alunos[i].Aprovado == true) ? qtdAprovF + 1 : qtdAprovF;
+        
+        //printf("Situacao aluno: %d", Alunos[i].Aprovado);
+        
+        //limpando terminal
+        system("clear"); 
+        
+    }
+    //printf("qtdAprovF %d qtdAprovM%d", qtdAprovF, qtdAprovM);
+    
+    //qtd de alunas
+    qtdAlunasF = qtdAlunos - qtdAlunosM;
+
+    //qtd de alunas reprovadas
+    qtdAlunasR = qtdAlunasF - qtdAprovF;
+
+    //qtd de alunos reprovados
+    qtdAlunosR = qtdAlunosM - qtdAprovM;
+
+    //quantidade total de aprovados e reprovados
+    qtdTotalAprovados = qtdAprovF + qtdAprovM;
+    qtdTotalReprovados = qtdAlunasR + qtdAlunosR;
+
+    //calculo da media de idade dos aprovados e reprovados
+    mediaIdadeAprovados = (qtdTotalAprovados > 0) ? somaIdadeAprovados/qtdTotalAprovados : 0;
+    mediaIdadeReprovados = (qtdTotalReprovados > 0) ? somaIdadeReprovados/qtdTotalReprovados : 0;
+
+    //printf("qtdAlunosR%d qtdAlunasR%d", qtdAlunosR, qtdAlunasR);
+
+    //porcentagem de alunos reprovados
+    porcentagemReprovados = (qtdAlunosR * 100)/qtdAlunos;
+
+    //porcentagem de alunas reprovadas
+    porcentagemReprovadas = (qtdAlunasR * 100)/qtdAlunos;
+
+    //printf("qtdAlunas%d  qtdAlunos%d", qtdAlunasF, qtdAlunosM);
+
+    printf("---Relatório--- \n");
+
+    printf("A quantidade de alunos cadastrados é: %d", qtdAlunos);
+    printf("\nA porcentagem de alunos reprovados na turma: %.2f%%", porcentagemReprovados);
+    printf("\nA porcentagem de alunas reprovadas na turma: %.2f%%", porcentagemReprovadas);
+    printf("\nA media de idade dos alunos aprovados é: %.2f", mediaIdadeAprovados);
+    printf("\nA media de idade dos alunos reprovados é: %.2f", mediaIdadeReprovados);
+
+    return 0;
+}
