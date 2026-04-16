@@ -3,7 +3,7 @@
 // a propriedade extends faz relacionamento
 // de herança entre Gerente e Funcionario
 
-public class Gerente extends Funcionário { 
+public class Gerente extends Funcionario { 
     // método construtor que irá acessar a classe pai
     public Gerente (String nome, Double salario){
         // enviando os valores para o metodo construtor 
