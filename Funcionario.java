@@ -16,6 +16,7 @@ public class Funcionario {
         this.salarioFuncionario = salario;
     }
 
-    
+    public Double getSalario() {
+    return this.salarioFuncionario;
     
 }
