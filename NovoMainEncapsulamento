@@ -1,6 +1,6 @@
 // Classe para testar os metodos de encapsulamento de outras classes
 
-public class mainEncapsulamento {
+public class NovoMainEncapsulamento {
     public static void main (String[] args){
         // a. Teste conta bancaria (Private + Validação)
         System.out.println("-----TESTANDO ENCAPSULAMENTO-----");
