@@ -6,12 +6,12 @@
  * conseguiria altera-lo diretamente
  */
 
-public class funcionario {
+public class Funcionario {
     public String nomeFuncionario; // Publico: qualquer
     // Protected: visivel para a classe e suas subclasses
     protected Double salarioFuncionario;
     // método construtor público desta classe
-    public funcionario (String nome, Double salario) {
+    public Funcionario (String nome, Double salario) {
         this.nomeFuncionario = nome;
         this.salarioFuncionario = salario;
     }
